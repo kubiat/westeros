@@ -49,15 +49,15 @@ extension Season {
         _episodes.insert(episode)
     }
     
-    func add(episodies: Episode...) {
-        episodies.forEach { add(episode: $0) }
+    func add(episodes: Episode...) {
+        episodes.forEach { add(episode: $0) }
     }
     
 }
 
 extension Season {
     var proxyForEquality: String {
-        return "\(releaseDateString)\(name)\(count)"
+        return "\(releaseDateString)\(name)"
     }
 
     // To order and compare them we will use the value of type date

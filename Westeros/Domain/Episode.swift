@@ -23,6 +23,11 @@ final class Episode {
         self.releaseDate = releaseDate
         self.season = season
         self._dateFormated.dateFormat="yyyy-MM-dd"
+        // Añadimos el episodio a season si season no es nill
+      /*  if season != nil {
+            season?.add(episode: <#T##Episode#>)
+        }
+ */
     }
     
 }
