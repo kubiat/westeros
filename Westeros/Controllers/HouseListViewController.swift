@@ -8,7 +8,7 @@
 
 import UIKit
 
-protocol HouseListViewControllerDelegate {
+protocol HouseListViewControllerDelegate: class {
     // Should
     // Will
     // Did

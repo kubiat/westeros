@@ -12,40 +12,55 @@ import UIKit
 class AppDelegate: UIResponder, UIApplicationDelegate {
     
     var window: UIWindow?
-    
+    var seasonDetailViewController: SeasonDetailViewController!
+    var houseDetailViewController: HouseDetailViewController!
     
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         
         window = UIWindow(frame: UIScreen.main.bounds)
-        window?.backgroundColor = .cyan
+        window?.makeKeyAndVisible()
         
-        // 1. Creamo el modelos
+        // Creamos los modelos
+        let seasons = Repository.local.seasons
         let houses = Repository.local.houses
         
-        // Crear los controladores
+        // Creamos los controladores
         // Master
+        let seasonListViewController = SeasonListViewController(model: seasons)
         let houseListViewController = HouseListViewController(model: houses)
-        let lastHouseSelected = houseListViewController.lastSelectedHouse()
         
-        // Detail
-        let houseDetailViewController = HouseDetailViewController(model: lastHouseSelected)
+        // Persistencia
+        let lastSelectedSeason = seasonListViewController.lastSelectedSeason()
+        let lastSelectedHouse = houseListViewController.lastSelectedHouse()
+        
+        // Creamos los controladores detailViewController
+        seasonDetailViewController = SeasonDetailViewController(model: lastSelectedSeason)
+        houseDetailViewController = HouseDetailViewController(model: lastSelectedHouse)
         
         // Asignar delegados
-        // Un objeto SOLO puede tener un delegado
-        // Sin embargo, un objeto, SI puede ser delegado de varios otros
+        houseListViewController.title = "CASAS"
+        seasonListViewController.title = "TEMPORADAS"
+        
+        seasonListViewController.delegate = seasonDetailViewController
         houseListViewController.delegate = houseDetailViewController
+       
+        
+        // Creamos el tabBar
+        let tabBarController = UITabBarController()
+        tabBarController.delegate = self
+        tabBarController.viewControllers = [seasonListViewController.wrappedInNavigation(), houseListViewController.wrappedInNavigation()]
         
         // Crear el combinador, osea, el UISplitVC
         let splitViewController = UISplitViewController()
         splitViewController.viewControllers = [
-            houseListViewController.wrappedInNavigation(),
-            houseDetailViewController.wrappedInNavigation()
+            tabBarController, seasonDetailViewController.wrappedInNavigation()
         ]
         
         // Asignamos el rootVC
+        
+        
         window?.rootViewController = splitViewController
         
-        window?.makeKeyAndVisible()
         return true
     }
     
@@ -70,6 +85,21 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func applicationWillTerminate(_ application: UIApplication) {
         // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
     }
-    
+}
+
+extension AppDelegate: UITabBarControllerDelegate{
+    func tabBarController(_ tabBarController: UITabBarController, didSelect viewController: UIViewController) {
+        
+        let viewController = viewController.children[0]
+        var detailViewController = UIViewController()
+        if(viewController is SeasonListViewController){
+            detailViewController = seasonDetailViewController
+        }
+        else if(viewController is HouseListViewController){
+            detailViewController = houseDetailViewController
+        }
+        
+        viewController.showDetailViewController(detailViewController.wrappedInNavigation(), sender:self )
+    }
     
 }

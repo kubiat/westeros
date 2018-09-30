@@ -57,17 +57,10 @@ class HouseTests: XCTestCase {
     
     // Given - When - Then
     func testHouse_AddPersons_ReturnsTheCorrectCountOfPersons() {
-        XCTAssertEqual(starkHouse.count, 0)
-        starkHouse.add(person: robb)
-        starkHouse.add(person: robb)
-        starkHouse.add(person: robb)
-        
-        XCTAssertEqual(starkHouse.count, 1)
-        
+        XCTAssertEqual(starkHouse.count, 2)
         starkHouse.add(person: arya)
         XCTAssertEqual(starkHouse.count, 2)
         
-        XCTAssertEqual(lannisterHouse.count, 0)
         lannisterHouse.add(person: tyrion)
         
         XCTAssertEqual(lannisterHouse.count, 1)
@@ -75,14 +68,14 @@ class HouseTests: XCTestCase {
         starkHouse.add(person: tyrion)
         XCTAssertEqual(starkHouse.count, 2)
     }
-    
+ 
     func testHouse_AddPersonsAtATime_ReturnsTheCorrectCountOfPersons() {
-        XCTAssertEqual(starkHouse.count, 0)
+   
         starkHouse.add(persons: robb, arya, tyrion)
         
         XCTAssertEqual(starkHouse.count, 2)
     }
-    
+ 
     func testHouseEquality() {
         // 1. Identidad
         XCTAssertEqual(starkHouse, starkHouse)
@@ -105,6 +98,7 @@ class HouseTests: XCTestCase {
     }
     
     func testHouseSortedMembersReturnsASortedArray() {
-        
+        starkHouse.add(persons: robb, arya)
+        XCTAssertEqual(starkHouse.sortedMembers, [arya, robb])
     }
 }

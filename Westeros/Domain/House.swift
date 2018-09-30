@@ -12,6 +12,7 @@ import Foundation
 typealias Words = String
 typealias Members = Set<Person>
 
+
 final class House {
     let name: String
     let sigil: Sigil
@@ -54,7 +55,7 @@ extension House {
 
 extension House {
     var proxyForEquality: String {
-        return "\(words)\(name)\(count)"
+        return "\(words)\(name)\(sigil)"
     }
     
     var proxyForComparison: String {
@@ -79,5 +80,11 @@ extension House: Comparable {
     static func < (lhs: House, rhs: House) -> Bool {
         // Orden alfabetico
         return lhs.proxyForComparison < rhs.proxyForComparison
+    }
+}
+
+extension House {
+    func setName(){
+        
     }
 }

@@ -45,13 +45,22 @@ class RepositoryTests: XCTestCase {
     }
     
     func testLocalRepositoryHouseFiltering() {
-        //        let filtered = Repository.local.houses(filteredBy: { $0.count == 1 })
         var filtered = Repository.local.houses { $0.count == 1 }
         XCTAssertEqual(filtered.count, 1)
         
         filtered = Repository.local.houses { $0.count == 100 }
         XCTAssertTrue(filtered.isEmpty)
     }
+    func testAtutoCompleteHouseFunc(){
+        let stark = Repository.local.house(named: .Lannister)
+        XCTAssertNotEqual(stark?.name, "Stark")
+        
+        let lannister = Repository.local.house(named: .Lannister)
+        XCTAssertEqual(lannister?.name, "Lannister")
+    }
+    
+    
+    
     
     func testLocalRepositorySeasonsCreation() {
         XCTAssertNotNil(localSeasons)
@@ -71,11 +80,13 @@ class RepositoryTests: XCTestCase {
         let keepcoding = Repository.local.season(named: "Keepcoding")
         XCTAssertNil(keepcoding)
     }
+    
     func testLocalRepositorySeasonsCheckEpisodes() {
         for season in localSeasons {
             XCTAssertEqual(season.count, 2)
         }
     }
+    
     func testLocalRepositorySeasonFiltering() {      
         var filtered = Repository.local.seasons { $0.count == 2 }
         XCTAssertEqual(filtered.count, 7)

@@ -17,7 +17,8 @@ final class Season {
  
     private var _episodes: Episodes
     private var _dateFormated = DateFormatter()
-    var sortedEpisodies: [Episode]{
+    
+    var sortedEpisodes: [Episode]{
         return _episodes.sorted()
     }
     

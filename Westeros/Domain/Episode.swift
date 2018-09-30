@@ -16,18 +16,16 @@ final class Episode {
     let releaseDate: Date
     private var _dateFormated = DateFormatter()
     weak var season: Season?
+    let digest: String
     
     // Mark: - Initialization    
-    init(name: String, releaseDate: Date, season: Season?) {
+    init(name: String, releaseDate: Date, digest: String, season: Season?) {
         self.name = name
         self.releaseDate = releaseDate
         self.season = season
+        self.digest = digest
         self._dateFormated.dateFormat="yyyy-MM-dd"
-        // Añadimos el episodio a season si season no es nill
-      /*  if season != nil {
-            season?.add(episode: <#T##Episode#>)
-        }
- */
+        self.season?.add(episode: self)
     }
     
 }
